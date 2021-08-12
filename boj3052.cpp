@@ -3,8 +3,9 @@
 using namespace std;
 
 int main() {
-	cin.tie(NULL);
 	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 
 	int arr[10] = { 0 };
 	int res[10] = { 0 };
