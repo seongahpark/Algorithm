@@ -31,5 +31,8 @@ int main() {
 	for (int i = 0; i < num; i++) { //결과 출력
 		cout << score[i] << "\n";
 	}
+
+	delete[] arr;
+	delete[] score;
 	return 0;
 }
