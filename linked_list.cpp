@@ -17,6 +17,8 @@ public:
 	void push();
 	void pop();
 	void print();
+	void insert();
+	void remove();
 };
 
 myLinkedList::myLinkedList() {
@@ -48,6 +50,71 @@ void myLinkedList::push() {
 }
 
 void myLinkedList::pop() {
+	if (size == 0) {
+		cout << "리스트가 비어있습니다." << endl;
+		return;
+	}
+
+	Node* pTmp = head;
+	Node* remove = head;
+
+	for (int i = 0; i < size - 1; i++) {
+		pTmp = pTmp->nextNode;
+		remove = remove->nextNode;
+	}
+
+	remove = remove->nextNode;
+	pTmp->nextNode = remove->nextNode;
+	remove->nextNode = NULL;
+	delete remove;
+
+	size--;
+}
+
+void myLinkedList::print() {
+	cout << "Linked List print : ";
+	Node* pTmp = head;
+	for (int i = 0; i < size; i++) {
+		pTmp = pTmp->nextNode;
+		cout << pTmp->data << "->";
+	}
+	cout << "NULL" << endl;
+}
+
+void myLinkedList::insert() {
+	cout << "데이터를 삽입할 위치를 입력하세요" << endl;
+	int index;
+	cin >> index;
+
+	if (index > size) {
+		cout << "유효하지 않은 index 입니다" << endl;
+		return;
+	}
+
+	cout << "삽입할 데이터를 입력하세요 : " << endl;
+	int data;
+	cin >> data;
+
+	Node* NewNode = new Node;
+	NewNode->data = data;
+	NewNode->nextNode = NULL;
+
+	if (head->nextNode == NULL) {
+		head->nextNode = NewNode;
+	}
+	else {
+		Node* pTmp = head;
+		for (int i = 0; i < index; i++) {
+			pTmp = pTmp->nextNode;
+		}
+		NewNode->nextNode = pTmp->nextNode;
+		pTmp->nextNode = NewNode;
+	}
+
+	size++;
+}
+
+void myLinkedList::remove() {
 	int index;
 	cout << "삭제할 인덱스를 입력하시오 : ";
 	cin >> index;
@@ -68,24 +135,15 @@ void myLinkedList::pop() {
 	pTmp->nextNode = remove->nextNode;
 	remove->nextNode = NULL;
 	delete remove;
-	size--;
-}
 
-void myLinkedList::print() {
-	cout << "Linked List print : ";
-	Node* pTmp = head;
-	for (int i = 0; i < size; i++) {
-		pTmp = pTmp->nextNode;
-		cout << pTmp->data << "->";
-	}
-	cout << "NULL" << endl;
+	size--;
 }
 
 int main() {
 	int num;
 	myLinkedList ml;
 	while (1) {
-		cout << "번호를 입력하세요 1.push 2.pop 3.print 4.종료 : ";
+		cout << "번호를 입력하세요 1.push 2.pop 3.print 4.insert 5.remove 0.종료 : ";
 		cin >> num;
 
 		switch (num) {
@@ -99,6 +157,12 @@ int main() {
 			ml.print();
 			break;
 		case 4:
+			ml.insert();
+			break;
+		case 5:
+			ml.remove();
+			break;
+		case 0:
 			return 0;
 		default:
 			cout << "잘못된 입력입니다." << endl;
